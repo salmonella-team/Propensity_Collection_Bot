@@ -8,9 +8,9 @@ bot = commands.Bot(command_prefix="/yashiro ")
 @bot.event
 async def on_ready():
     """
-    login + bot起動
+    bot起動 + 起動確認メッセージ送信
     """
-    await bot.get_channel(settings.LAUNCH_NOTIFICATION)
+    await bot.get_channel(int(settings.LAUNCH_NOTIFICATION)).send("起動")
     print("Launch OK")
 
 
