@@ -4,12 +4,6 @@ import settings
 
 bot = commands.Bot(command_prefix="/yashiro ")
 
-"""
-やらないといけないこと
-githubpagesでのルーティング方法
-https://qiita.com/teinen_qiita/items/04522a76c239e9998856
-今回はリポジトリのアレでなんかやる
-"""
 
 @bot.event
 async def on_ready():
@@ -19,9 +13,10 @@ async def on_ready():
     await bot.get_channel(settings.LAUNCH_NOTIFICATION)
     print("Launch OK")
 
+
 @bot.command()
 async def collect():
-    """
+    """ 
     Tweetmessageを集める
     """
 
@@ -33,10 +28,7 @@ async def collect():
 
     # HTMLを発行
 
-    # gistにPush
-
-
-
+    #
 
 
 bot.run(settings.DISCORD_TOKEN)
