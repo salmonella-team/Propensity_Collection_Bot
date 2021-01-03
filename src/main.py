@@ -1,6 +1,10 @@
+from typing import Pattern
 import discord
+from discord import channel
 from discord.ext import commands
 import settings
+import re
+
 
 bot = commands.Bot(command_prefix="/yashiro ")
 
@@ -15,14 +19,28 @@ async def on_ready():
 
 
 @bot.command()
-async def collect():
+async def collect(ctx):
     """ 
     Tweetmessageを集める
     """
 
     # チャンネルの全メッセージを取得
+    collect_channel = bot.get_channel(int(settings.COLLECTED_CHANNEL))
+    collect_channel_message = await collect_channel.history(limit=1000).flatten()
 
-    # ツイートが画像ツイートか判別
+    """
+    Twitterの場合:https://twitter.com/XXXX/status/XXXXXXXXXX
+    """
+
+    # Twitter以外のメッセージを配列から消す
+    pattern = "https\:\/\/twitter\.com\/[^\/]+\/status\/[0-9]+"
+    messages = []
+    for message in collect_channel_message:
+        url = message.content
+        url = re.match(pattern, url)
+        if url:
+            messages.append(url.group())
+    # twitterでまず判別
 
     # 画像URLをすべて取得する
 
