@@ -1,12 +1,21 @@
-from typing import Pattern
-import discord
-from discord import channel
 from discord.ext import commands
-import settings
+from jinja2 import Template
+import tweepy
+
 import re
+
+import settings
 
 
 bot = commands.Bot(command_prefix="/yashiro ")
+template = Template("{{ embedded_tweet  }}")
+
+# Tweepyの準備
+auth = tweepy.OAuthHandler(settings.TW_CONSUMER_KEY,
+                           settings.TW_CONSUMER_SECRET)
+auth.set_access_token(settings.TW_ACCESS_TOKEN,
+                      settings.TW_ACCESS_TOKEN_SECRET)
+api = tweepy.API(auth)
 
 
 @bot.event
@@ -40,13 +49,20 @@ async def collect(ctx):
         url = re.match(pattern, url)
         if url:
             messages.append(url.group())
-    # twitterでまず判別
+
+    # 埋め込みAPIの取得(ページがなかったときの例外処理がまだ)
+    embedded_tweets = []
+    for message in messages:
+        embedded_tweets.append(api.get_oembed(message))
+    print(embedded_tweets)
+
+    # print(template.render(embedded_tweet=embedded_tweet['html']))
+
+    # JinjaでHTML作成
 
     # 画像URLをすべて取得する
 
     # HTMLを発行
-
-    #
 
 
 bot.run(settings.DISCORD_TOKEN)

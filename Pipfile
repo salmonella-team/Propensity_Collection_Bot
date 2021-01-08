@@ -10,6 +10,8 @@ autopep8 = "*"
 "discord.py" = "*"
 python-dotenv = "*"
 autopep8 = "*"
+tweepy = "*"
+jinja2 = "*"
 
 [requires]
 python_version = "3.8"
